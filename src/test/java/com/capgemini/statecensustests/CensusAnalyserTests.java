@@ -44,4 +44,14 @@ public class CensusAnalyserTests {
 		}
 	}
 
+	@Test
+	public void givenIndianCensusCSVFile_WhenWrongDelimiterProvided_ShouldThrowException() {
+		try {
+			CensusAnalyser censusAnalyser = new CensusAnalyser();
+			censusAnalyser.loadIndiaCensusData("./StateWrongDelimiterCSV.txt");
+		} catch (CensusAnalyserException e) {
+			Assert.assertEquals(CensusAnalyserException.ExceptionType.RUNTIME_EXCEPTION,e.type);
+		}
+	}
+
 }
