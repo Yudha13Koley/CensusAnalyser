@@ -50,7 +50,19 @@ public class CensusAnalyserTests {
 			CensusAnalyser censusAnalyser = new CensusAnalyser();
 			censusAnalyser.loadIndiaCensusData("./StateWrongDelimiterCSV.txt");
 		} catch (CensusAnalyserException e) {
+			System.out.println(e.getMessage());
 			Assert.assertEquals(CensusAnalyserException.ExceptionType.RUNTIME_EXCEPTION,e.type);
+		}
+	}
+	
+	@Test
+	public void givenIndianCensusCSVFile_WhenWrongHeaderProvided_ShouldThrowException() {
+		try {
+			CensusAnalyser censusAnalyser = new CensusAnalyser();
+			censusAnalyser.loadIndiaCensusData("./StateWrongHeaderCSV.txt");
+		} catch (CensusAnalyserException e) {
+			System.out.println(e.getMessage());
+            Assert.assertEquals("Error capturing CSV header!",e.getMessage());
 		}
 	}
 

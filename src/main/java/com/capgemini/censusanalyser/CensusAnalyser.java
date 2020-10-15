@@ -36,7 +36,7 @@ public class CensusAnalyser {
 			throw new CensusAnalyserException("IO Exception", CensusAnalyserException.ExceptionType.IO_EXCEPTION);
 	}
 		catch (RuntimeException e) {
-			throw new CensusAnalyserException("Runtime Exception", CensusAnalyserException.ExceptionType.RUNTIME_EXCEPTION);
+			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.RUNTIME_EXCEPTION);
 	}
 }
 }
