@@ -3,6 +3,7 @@ package com.capgemini.statecensustests;
 import org.junit.Assert;
 import org.junit.Test;
 
+
 import com.capgemini.censusanalyser.CensusAnalyser;
 import com.capgemini.exceptions.CensusAnalyserException;
 
@@ -27,7 +28,17 @@ public class CensusAnalyserTests {
 	public void givenIndiaCensusData_WithWrongFile_ShouldThrowException() {
 		try {
 			CensusAnalyser censusAnalyser = new CensusAnalyser();
-			censusAnalyser.loadIndiaCensusData("./StateABCSV.csv");
+			censusAnalyser.loadIndiaCensusData("D:\\study\\JavaOracle\\CensusAnalyser\\StateCSV.csv");
+		} catch (CensusAnalyserException e) {
+			Assert.assertEquals(CensusAnalyserException.ExceptionType.WRONG_FILE, e.type);
+		}
+	}
+
+	@Test
+	public void givenIndiaCensusData_WithWrongFileType_ShouldThrowException() {
+		try {
+			CensusAnalyser censusAnalyser = new CensusAnalyser();
+			censusAnalyser.loadIndiaCensusData("./StateCSV.pdf");
 		} catch (CensusAnalyserException e) {
 			Assert.assertEquals(CensusAnalyserException.ExceptionType.WRONG_FILE, e.type);
 		}

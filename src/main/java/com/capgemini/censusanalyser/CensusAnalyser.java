@@ -29,10 +29,11 @@ public class CensusAnalyser {
 				System.out.println(censusData);
 			}
 			return noOfRecords;
-		} catch (NoSuchFileException e) {
-			throw new CensusAnalyserException("No Such File Found", CensusAnalyserException.ExceptionType.WRONG_FILE);
-		} catch (IOException e) {
-			throw new CensusAnalyserException("IO Exception", CensusAnalyserException.ExceptionType.IO_EXCEPTION);
 		}
+		catch (NoSuchFileException e) {
+			throw new CensusAnalyserException("No Such File Found", CensusAnalyserException.ExceptionType.WRONG_FILE);
+		}catch (IOException e) {
+			throw new CensusAnalyserException("IO Exception", CensusAnalyserException.ExceptionType.IO_EXCEPTION);
 	}
+}
 }
