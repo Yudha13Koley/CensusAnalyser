@@ -10,8 +10,6 @@ import com.capgemini.exceptions.CensusAnalyserException;
 public class CensusAnalyserTests {
 
 	private static final String INDIA_CENSUS_CSV_FILE_PATH = "./StateCSV.csv";
-	// private static final String INDIA_STATE_CENSUS_CSV_FILE_PATH =
-	// "./IndianStateCensusData.csv";
 
 	@Test
 	public void givenIndianCensusCSVFile_ReturnsNumberOfRecords() {
@@ -28,7 +26,7 @@ public class CensusAnalyserTests {
 	public void givenIndiaCensusData_WithWrongFile_ShouldThrowException() {
 		try {
 			CensusAnalyser censusAnalyser = new CensusAnalyser();
-			censusAnalyser.loadIndiaCensusData("D:\\study\\JavaOracle\\CensusAnalyser\\StateCSV.csv");
+			censusAnalyser.loadIndiaCensusData("D:\\study\\JavaOracle\\CensusAnalyser\\StateABCSV.csv");
 		} catch (CensusAnalyserException e) {
 			Assert.assertEquals(CensusAnalyserException.ExceptionType.WRONG_FILE, e.type);
 		}

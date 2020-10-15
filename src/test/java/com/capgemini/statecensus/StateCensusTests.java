@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.capgemini.censusanalyser.CensusAnalyser;
+import com.capgemini.exceptions.CensusAnalyserException;
 
 public class StateCensusTests {
 
@@ -19,5 +20,43 @@ public class StateCensusTests {
 			System.out.println(e.getMessage());
 		}
 
+	}
+	@Test
+	public void givenIndianStateCensusCSVFile_WithWrongFile_ShouldThrowException() {
+		try {
+			CensusAnalyser censusAnalyser = new CensusAnalyser();
+			censusAnalyser.loadStateCode("./IndianStateCensusWrongData.csv");
+		} catch (CensusAnalyserException e) {
+			Assert.assertEquals(CensusAnalyserException.ExceptionType.WRONG_FILE, e.type);
+		}
+	}
+	@Test
+	public void givenIndianStateCensusCSVFile_WithWrongFileType_ShouldThrowException() {
+		try {
+			CensusAnalyser censusAnalyser = new CensusAnalyser();
+			censusAnalyser.loadStateCode("./IndianStateCensusData.xlsx");
+		} catch (CensusAnalyserException e) {
+			Assert.assertEquals(CensusAnalyserException.ExceptionType.WRONG_FILE, e.type);
+		}
+	}
+	@Test
+	public void givenIndianStateCensusCSVFile_WhenWrongDelimiterProvided_ShouldThrowException() {
+		try {
+			CensusAnalyser censusAnalyser = new CensusAnalyser();
+			censusAnalyser.loadStateCode("./IndianStateCensusDataWrongDelimiter.txt");
+		} catch (CensusAnalyserException e) {
+			System.out.println(e.getMessage());
+			Assert.assertEquals(CensusAnalyserException.ExceptionType.RUNTIME_EXCEPTION,e.type);
+		}
+	}
+	@Test
+	public void givenIndianStateCensusCSVFile_WhenWrongHeaderProvided_ShouldThrowException() {
+		try {
+			CensusAnalyser censusAnalyser = new CensusAnalyser();
+			censusAnalyser.loadStateCode("./IndianStateCensusDataWrongHeader.txt");
+		} catch (CensusAnalyserException e) {
+			System.out.println(e.getMessage());
+			Assert.assertEquals(CensusAnalyserException.ExceptionType.RUNTIME_EXCEPTION,e.type);
+		}
 	}
 }
