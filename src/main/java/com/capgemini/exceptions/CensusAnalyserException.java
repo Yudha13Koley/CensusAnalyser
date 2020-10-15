@@ -14,7 +14,7 @@ public class CensusAnalyserException extends Exception {
 	}
 
 	public enum ExceptionType {
-		IO_EXCEPTION, WRONG_FILE, RUNTIME_EXCEPTION
+		IO_EXCEPTION, WRONG_FILE, RUNTIME_EXCEPTION, PARSE_EXCEPTION
 	}
 
 }
