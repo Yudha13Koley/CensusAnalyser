@@ -13,15 +13,18 @@ import com.capgemini.factory.CSVBuilderFactory;
 import com.capgemini.indiacensuscsv.IndiaCensusCSV;
 import com.capgemini.interfaces.ICSVBuilder;
 import com.capgemini.statecensusanalyser.StateCodeCSV;
+import com.opencsv.exceptions.CsvException;
 
 public class CensusAnalyser {
 	public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
-			ICSVBuilder csvBuilder=CSVBuilderFactory.getCSVBuilder();
-			Iterator<IndiaCensusCSV> iterator = csvBuilder.getIteratorForCSVFile(reader,
-					IndiaCensusCSV.class);
+			ICSVBuilder csvBuilder = CSVBuilderFactory.getCSVBuilder();
+			Iterator<IndiaCensusCSV> iterator;
+			iterator = csvBuilder.getIteratorForCSVFile(reader, IndiaCensusCSV.class);
 			return getCountOfEntries(iterator);
+		} catch (CsvException e) {
+			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.PARSE_EXCEPTION);
 		} catch (NoSuchFileException e) {
 			throw new CensusAnalyserException("No Such File Found", CensusAnalyserException.ExceptionType.WRONG_FILE);
 		} catch (IOException e) {
@@ -34,9 +37,11 @@ public class CensusAnalyser {
 	public int loadStateCode(String csvFilePath) throws CensusAnalyserException {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
-			ICSVBuilder csvBuilder=CSVBuilderFactory.getCSVBuilder();
+			ICSVBuilder csvBuilder = CSVBuilderFactory.getCSVBuilder();
 			Iterator<StateCodeCSV> iterator = csvBuilder.getIteratorForCSVFile(reader, StateCodeCSV.class);
 			return getCountOfEntries(iterator);
+		} catch (CsvException e) {
+			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.PARSE_EXCEPTION);
 		} catch (NoSuchFileException e) {
 			throw new CensusAnalyserException("No Such File Found", CensusAnalyserException.ExceptionType.WRONG_FILE);
 		} catch (IOException e) {
