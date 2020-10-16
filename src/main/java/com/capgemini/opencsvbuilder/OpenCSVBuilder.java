@@ -4,12 +4,13 @@ import java.io.Reader;
 import java.util.Iterator;
 
 import com.capgemini.exceptions.CensusAnalyserException;
+import com.capgemini.interfaces.ICSVBuilder;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-public class OpenCSVBuilder {
-
-	public <E> Iterator<E> getIteratorForCSVFile(Reader reader, Class<E> csvClass) throws CensusAnalyserException {
+public class OpenCSVBuilder<E> implements ICSVBuilder<E> {
+	@Override
+	public Iterator<E> getIteratorForCSVFile(Reader reader, Class<E> csvClass) throws CensusAnalyserException {
 		try {
 			CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
 			csvToBeanBuilder.withType(csvClass);
@@ -20,5 +21,6 @@ public class OpenCSVBuilder {
 			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.PARSE_EXCEPTION);
 		}
 	}
+	
 
 }
