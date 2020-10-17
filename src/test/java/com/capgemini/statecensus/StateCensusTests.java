@@ -1,10 +1,15 @@
 package com.capgemini.statecensus;
 
+import static org.junit.Assert.fail;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.capgemini.censusanalyser.CensusAnalyser;
 import com.capgemini.exceptions.CensusAnalyserException;
+import com.capgemini.indiacensuscsv.IndiaCensusCSV;
+import com.capgemini.statecensusanalyser.StateCodeCSV;
+import com.google.gson.Gson;
 
 public class StateCensusTests {
 
@@ -62,4 +67,17 @@ public class StateCensusTests {
 			Assert.assertEquals(CensusAnalyserException.ExceptionType.RUNTIME_EXCEPTION, e.type);
 		}
 	}
+
+	@Test
+	public void givenIndianCensusCSVFile_WhenSortedByState_ShouldReturnSortedList() {
+		try {
+			CensusAnalyser censusAnalyser = new CensusAnalyser();
+			String sortedlist = censusAnalyser.getSortedlistByStateCode(STATE_FILE_PATH);
+			StateCodeCSV[] arr = new Gson().fromJson(sortedlist, StateCodeCSV[].class);
+			Assert.assertEquals("AN", arr[0].stateCode);
+		} catch (CensusAnalyserException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
