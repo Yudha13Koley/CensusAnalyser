@@ -8,23 +8,22 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.StreamSupport;
 
+import com.capgemini.exception.CSVBuilderException;
 import com.capgemini.exceptions.CensusAnalyserException;
 import com.capgemini.factory.CSVBuilderFactory;
 import com.capgemini.indiacensuscsv.IndiaCensusCSV;
 import com.capgemini.interfaces.ICSVBuilder;
 import com.capgemini.statecensusanalyser.StateCodeCSV;
-import com.opencsv.exceptions.CsvException;
 
 public class CensusAnalyser {
 	public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
 			ICSVBuilder csvBuilder = CSVBuilderFactory.getCSVBuilder();
-			Iterator<IndiaCensusCSV> iterator;
-			iterator = csvBuilder.getIteratorForCSVFile(reader, IndiaCensusCSV.class);
-			return getCountOfEntries(iterator);
-		} catch (CsvException e) {
-			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.PARSE_EXCEPTION);
+			List<IndiaCensusCSV> listOfEntries = csvBuilder.getListForCSVFile(reader, IndiaCensusCSV.class);
+			return listOfEntries.size();
+		} catch (CSVBuilderException e) {
+			throw new CensusAnalyserException("Unable to Parse", CensusAnalyserException.ExceptionType.PARSE_EXCEPTION);
 		} catch (NoSuchFileException e) {
 			throw new CensusAnalyserException("No Such File Found", CensusAnalyserException.ExceptionType.WRONG_FILE);
 		} catch (IOException e) {
@@ -38,10 +37,10 @@ public class CensusAnalyser {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
 			ICSVBuilder csvBuilder = CSVBuilderFactory.getCSVBuilder();
-			Iterator<StateCodeCSV> iterator = csvBuilder.getIteratorForCSVFile(reader, StateCodeCSV.class);
-			return getCountOfEntries(iterator);
-		} catch (CsvException e) {
-			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.PARSE_EXCEPTION);
+			List<StateCodeCSV> listOfStateEntries = csvBuilder.getListForCSVFile(reader, StateCodeCSV.class);
+			return listOfStateEntries.size();
+		} catch (CSVBuilderException e) {
+			throw new CensusAnalyserException("Unable to Parse", CensusAnalyserException.ExceptionType.PARSE_EXCEPTION);
 		} catch (NoSuchFileException e) {
 			throw new CensusAnalyserException("No Such File Found", CensusAnalyserException.ExceptionType.WRONG_FILE);
 		} catch (IOException e) {
