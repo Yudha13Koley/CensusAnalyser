@@ -77,6 +77,7 @@ public class CensusAnalyserTests {
 			fail();
 		}
 	}
+
 	@Test
 	public void givenIndianCensusCSVFile_WhenSortedByPopulation_ShouldReturnSortedList() {
 		try {
@@ -84,6 +85,19 @@ public class CensusAnalyserTests {
 			String sortedlist = censusAnalyser.getSortedlistByPopulation(INDIA_CENSUS_CSV_FILE_PATH);
 			IndiaCensusCSV[] arr = new Gson().fromJson(sortedlist, IndiaCensusCSV[].class);
 			Assert.assertEquals("Uttar Pradesh", arr[0].state);
+		} catch (CensusAnalyserException e) {
+			System.out.println(e.getMessage());
+			fail();
+		}
+	}
+
+	@Test
+	public void givenIndianCensusCSVFile_WhenSortedByPopulationDensity_ShouldReturnSortedList() {
+		try {
+			CensusAnalyser censusAnalyser = new CensusAnalyser();
+			String sortedlist = censusAnalyser.getSortedlistByPopulationDensity(INDIA_CENSUS_CSV_FILE_PATH);
+			IndiaCensusCSV[] arr = new Gson().fromJson(sortedlist, IndiaCensusCSV[].class);
+			Assert.assertEquals("Bihar", arr[0].state);
 		} catch (CensusAnalyserException e) {
 			System.out.println(e.getMessage());
 			fail();
