@@ -1,13 +1,12 @@
 package com.capgemini.statecensus;
 
-import static org.junit.Assert.fail;
+
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.capgemini.censusanalyser.CensusAnalyser;
 import com.capgemini.exceptions.CensusAnalyserException;
-import com.capgemini.indiacensuscsv.IndiaCensusCSV;
 import com.capgemini.statecensusanalyser.StateCodeCSV;
 import com.google.gson.Gson;
 

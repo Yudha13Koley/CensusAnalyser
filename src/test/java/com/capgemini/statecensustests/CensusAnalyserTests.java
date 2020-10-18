@@ -77,5 +77,16 @@ public class CensusAnalyserTests {
 			fail();
 		}
 	}
-
+	@Test
+	public void givenIndianCensusCSVFile_WhenSortedByPopulation_ShouldReturnSortedList() {
+		try {
+			CensusAnalyser censusAnalyser = new CensusAnalyser();
+			String sortedlist = censusAnalyser.getSortedlistByPopulation(INDIA_CENSUS_CSV_FILE_PATH);
+			IndiaCensusCSV[] arr = new Gson().fromJson(sortedlist, IndiaCensusCSV[].class);
+			Assert.assertEquals("Uttar Pradesh", arr[0].state);
+		} catch (CensusAnalyserException e) {
+			System.out.println(e.getMessage());
+			fail();
+		}
+	}
 }

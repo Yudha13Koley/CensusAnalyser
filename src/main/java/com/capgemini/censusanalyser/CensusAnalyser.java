@@ -96,6 +96,26 @@ public class CensusAnalyser {
 			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.RUNTIME_EXCEPTION);
 		}
 	}
+	public String getSortedlistByPopulation(String csvFilePath) throws CensusAnalyserException {
+		try {
+			Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
+			ICSVBuilder csvBuilder = CSVBuilderFactory.getCSVBuilder();
+			List<IndiaCensusCSV> listOfEntries = csvBuilder.getListForCSVFile(reader, IndiaCensusCSV.class);
+			Comparator<IndiaCensusCSV> comparator = Comparator.comparing(indiaCensus -> indiaCensus.population);
+			List<IndiaCensusCSV> sortedListOfEntries = this.sortList(listOfEntries, comparator);
+			Collections.reverse(sortedListOfEntries);
+			String json = new Gson().toJson(sortedListOfEntries);
+			return json;
+		} catch (CSVBuilderException e) {
+			throw new CensusAnalyserException("Unable to Parse", CensusAnalyserException.ExceptionType.PARSE_EXCEPTION);
+		} catch (NoSuchFileException e) {
+			throw new CensusAnalyserException("No Such File Found", CensusAnalyserException.ExceptionType.WRONG_FILE);
+		} catch (IOException e) {
+			throw new CensusAnalyserException("IO Exception", CensusAnalyserException.ExceptionType.IO_EXCEPTION);
+		} catch (RuntimeException e) {
+			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.RUNTIME_EXCEPTION);
+		}
+	}
 
 	private <E> List<E> sortList(List<E> listOfEntries, Comparator<E> comparator) {
 		return listOfEntries.stream().sorted(comparator).collect(Collectors.toList());
